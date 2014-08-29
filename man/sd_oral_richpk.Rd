@@ -20,6 +20,7 @@ A dataset containing dose, plasma concentration and time data, as well as
   \item Age. Age in years
   \item Weight. Weight in kg
 	 \item Gender. Male or Female gender identification
+  \item Race. Ethnicity
   \item Dose. Dose given to each individual in milligrams
 }
 }
