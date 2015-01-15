@@ -9,7 +9,7 @@
 #'   \item AGE. Time in hours (0--24)
 #'   \item WEIGHT Amount of drug given, time dependent, in milligrams
 #'   \item SCREATININE Plasma concentration in mg/L
-#'   \item Age. Age in years
+#'   \item AGE Age in years
 #'   \item Weight. Weight in kg
 #'   \item Gender. Male or Female gender identification
 #'   \item Race. Ethnicity
