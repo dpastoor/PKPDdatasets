@@ -10,10 +10,10 @@
 #'   \item WEIGHT Amount of drug given, time dependent, in milligrams
 #'   \item SCREATININE Plasma concentration in mg/L
 #'   \item AGE Age in years
-#'   \item Weight. Weight in kg
-#'   \item Gender. Male or Female gender identification
-#'   \item Race. Ethnicity
-#'   \item Dose. Dose given to each individual in milligrams
+#'   \item WEIGHT. Weight in kg
+#'   \item GENDER. Male or Female gender identification
+#'   \item RACE. Ethnicity
+#'   \item DOSE. Dose given to each individual in milligrams
 #' }
 #' 
 #' @docType data
