@@ -18,11 +18,11 @@ A dataset containing dose, plasma concentration and time data, as well as
   \item AGE. Time in hours (0--24)
   \item WEIGHT Amount of drug given, time dependent, in milligrams
   \item SCREATININE Plasma concentration in mg/L
-  \item Age. Age in years
-  \item Weight. Weight in kg
-  \item Gender. Male or Female gender identification
-  \item Race. Ethnicity
-  \item Dose. Dose given to each individual in milligrams
+  \item AGE Age in years
+  \item WEIGHT. Weight in kg
+  \item GENDER. Male or Female gender identification
+  \item RACE. Ethnicity
+  \item DOSE. Dose given to each individual in milligrams
 }
 }
 \keyword{datasets}
