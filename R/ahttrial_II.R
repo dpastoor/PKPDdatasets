@@ -25,8 +25,8 @@
 #' 
 #' @docType data
 #' @keywords datasets
-#' @name ahttrial_II
-#' @usage data(ahttrial_II)
+#' @name aht_trial2
+#' @usage data(aht_trial2)
 #' @format A data frame with 100 rows and 11 variables
 NULL
 
