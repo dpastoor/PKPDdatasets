@@ -1,0 +1,80 @@
+---
+title: "Theophylline dataset"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Theophylline dataset}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=FALSE}
+library(DiagrammeR)
+```
+
+## Theophylline
+
+The data in Theoph.csv came from a study of the kinetics of the anti-asthmatic
+agent theophylline reported by Boeckmann et al. (1992). In this experiment,
+the drug was administered orally to twelve subjects, and serum
+concentrations were measured at ten time points per subject over the subsequent
+25 hours.
+
+The common model for the kinetics of theophylline following oral administration is
+a one-compartment model with first-order absorption and elimination. In this
+model, the subject-specific pharmacokinetic parameters to be estimated are -
+
+* the absorption rate constant, $ka$,
+* the volume of distribution, $V$, and
+* the elimination rate constant, $k$.
+
+```{r echo=FALSE}
+mermaid("
+        graph LR
+Depot --ka --> Central((Central))
+Central((Central)) -- k --> Out
+        ")
+```
+
+Notes -
+
+1. $Dose$ (units - milligram) is given at time $t = 0$ into the $Depot$ compartment - represents the gut
+2. The $Dose$ moves from the $Depot$ compartment to the $Central$ compartment with a first-order absorption rate constant $ka$
+3. $Central$ compartment is the observation compartment where concentrations of the drug $C_p(t)$ are measured (units - milligram/Liter).
+4. Volume of distribution parameter $V$ (units = Liter) is a proportionality constant that scales the amount of drug in the $Central$ compartment (mg) to the observed concentration (mg/L) - $Concentration = Dose/V$
+5. $k$ (units - 1/time) is the parameter that describes the elimination rate constant of the drug from the $Central$ compartment
+6. $CL$ (units - Liter/time) is useful parameter that relates the rate of elimination (units - milligram/time) to the measured concentration.
+$$ Rate of Elimination = CL \times C_p $$
+
+$CL$ can also be derived from $k$, $V$ where,
+$$ CL = k \times V$$
+
+7. $Out$ is collection compartment without any exit rates. Such a compartment can be use to accumulate drug over time and is commonly referred to as area under the curve or $AUC$.  
+$$ AUC  = \int\limits_0^\infty C_p\, \mathrm{d}t$$
+
+#### Analytical Solution
+
+$$C_p(t) = \frac{ Dose }{ V }\frac{ ka }{ ka - k }(e^{-k(t-t_D)} - e^{-ka(t-t_D)}) $$
+
+#### ODE
+
+$$
+\begin{array}{lcl} \frac{ dDepot }{ dt } & = & -ka\times Depot \\ \frac{ dCentral }{ dt } & = & ka\times Depot - k\times t \end{array}
+$$
+
+## Data Structure
+
+1. Subject
+an ordered factor with levels 1, ..., 12 identifying the subject on whom the observation was made. The ordering is by increasing maximum concentration of theophylline observed.
+
+2. Wt
+weight of the subject (kg).
+
+3. Dose
+dose of theophylline administered orally to the subject (mg/kg).
+
+4. Time
+time since drug administration when the sample was drawn (hr).
+
+5. conc
+theophylline concentration in the sample (mg/L).
