@@ -17,3 +17,4 @@ Description: ctm-datasets provides a number of simulated datasets to provide
     examples in pharmacometrics.
 LazyData: TRUE
 License: MIT
+RoxygenNote: 6.0.1
