@@ -1,0 +1,90 @@
+---
+title: "Single Dose IV - PKPD"
+author: "Vignette Author"
+date: "`r Sys.Date()`"
+output: rmarkdown::html_vignette
+vignette: >
+  %\VignetteIndexEntry{Single Dose IV - PKPD}
+  %\VignetteEngine{knitr::rmarkdown}
+  %\VignetteEncoding{UTF-8}
+---
+
+```{r echo=FALSE}
+library(DiagrammeR)
+```
+
+## Single Dose IV - PKPD
+
+A dataset containing simulated PKPD data. A single IV bolus dose was given and rich pharmacokinetic and pharmacodynamic measurements were taken. Demographic data of Age, Weight, Gender, and Race were collected.
+
+This data was simulated from a one-compartment model with first-order and elimination after a IV bolus dose. The table below shows the parameters used to simulate the dataset -
+
+```{r echo=FALSE}
+data.frame(
+        Parameter = c("CL (L/hr)", "V (L)", "Residual error: Proportional",
+                      "Emax", "EC50 (mg/L)", "Residual Error on Effect"),
+             Mean = c(1, 10, 0, 10, 2, 0),
+   Variance..BSV. = c("0.16 (40%)", "0.09 (30%)", "10%", "sd = 1.4 units",
+                      "0.09 (30%)", "sd = 0.5 units")
+) %>% knitr::kable()
+```
+
+```{r echo=FALSE}
+mermaid("
+graph LR
+A((Central))--CL-->B[Out]
+A-->D[Effect]
+")
+```
+
+Notes -
+
+1. $Dose$ (units - milligram) is given at time $t = 0$ directly into the $Central$ compartment
+2. $Central$ compartment is the observation compartment where concentrations of the drug $C_p(t)$ are measured (units - microgram/Liter).
+3. Volume of distribution parameter $V$ (units = Liter) is a proportionality constant that scales the amount of drug in the $Central$ compartment (mg) to the observed concentration (mg/L) - $Concentration = Dose/V$
+The population values of $V$, $TVV$ is allometrically scaled as follows:
+$$ V = TVV \times (\frac{WEIGHT}{70})^1 $$
+4. $CL$ (units - Liter/time) is the parameter that relates the rate of elimination (units - milligram/time) to the measured concentration.
+$$ Rate of Elimination = CL \times C_p $$
+
+$CL$ can also be derived from $k$, $V$ where,
+$$ CL = k \times V$$
+
+The population values of $CL$, $TVCL$ is allometrically scaled as follows:
+$$ CL = TVCL \times (\frac{WEIGHT}{70})^{0.75} $$
+
+7. $Out$ is collection compartment without any exit rates. Such a compartment can be use to accumulate drug over time and is commonly referred to as area under the curve or $AUC$.  
+$$ AUC  = \int\limits_0^\infty C_p\, \mathrm{d}t$$
+8. $Effect$ here represents the equation that relates the concentration, $C_p$ to the pharmacodynamic endpoint. 
+
+$$ Effect = \frac{Emax\times C_p(t)}{EC_{50} + C_p(t)} $$
+
+#### ODE
+
+$$
+\begin{array}{lcl} \frac{ dCentral }{ dt } & = &- \frac{CL}{V}\times t \\  \end{array}
+$$
+
+## Data Structure
+
+The model used is a one-compartment PK model with allometric model of weight on CL (exp 0.75) and volume (exp 1) with direct PD effect (Emax model).
+
+1. ID. Numerical ID (1-100)
+
+2. TIME Time in hours (0-12)
+
+3. COBS. Plasma concentration in ug/L
+
+4. EOBS.
+
+5. WEIGHT. Weight in kg
+
+6. AGE. Age in years
+
+7. DOSE. Three dose levels: 1, 10, and 100 mg
+
+8. SEX. Male or Female gender identification
+
+9. RACE. AfricanAmerican, Caucasian, Others, and Asian races
+
+10. AMT. Amount of drug given, time dependent, in milligrams
